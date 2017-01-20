@@ -10,8 +10,8 @@ readableStream.on('data', function(chunk) {
 	//getting the positin of element
 var json=csvJSON(data);
  var filtered=json.filter(barChartForcountries);
- var addOfData=addData(filtered);
- console.log(addOfData);
+  var  allCountry=(filtered);
+	var newarray=addSum(filtered);
 	writeStream.write(JSON.stringify(filtered));
 	writeStream.end();
 });
@@ -43,57 +43,36 @@ return result1;
 }
 ///filter function
  function barChartForcountries(json){
- if ((json.countries_en=="Netherlands")||(json.countries_en=="Canada")||(json.countries_en=="UK/USA")||(json.countries_en=="Australia")||(json.countries_en=="France")||(json.countries_en=="Germany")||(json.countries_en=="Spain")||(json.countries_en=="South Africa"))
+ if (json.sugars_100g!="" && json.salt_100g!="" && ((json.countries_en=="Netherlands")||(json.countries_en=="Canada")||(json.countries_en=="UK/USA")||(json.countries_en=="Australia")||(json.countries_en=="France")||(json.countries_en=="Germany")||(json.countries_en=="Spain")||(json.countries_en=="South Africa")));
 {
 	return true;
 }
  }
-//////Function for adding
+ //////// function for removing repeted country
+ function addSum(filtered) {
+var 	myArray=[{ counteries_en:"Netherlands",sugars_100g:0,salt_100g:0}
+	,{counteries_en:"Canada",sugars_100g:0,salt_100g:0},
+	{counteries_en:"United States",sugars_100g:0,salt_100g:0},
+	{counteries_en:"Australia",sugars_100g:0,salt_100g:0},
+	{counteries_en:"France",sugars_100g:0,salt_100g:0},
+	{counteries_en:"Germany",sugars_100g:0,salt_100g:0},
+	{counteries_en:"Spain",sugars_100g:0,salt_100g:0},
+	{counteries_en:"South Africa",sugars_100g:0,salt_100g:0}
+];
+	console.log(myArray.length);
+ 	for (var i = 0; i < myArray.length; i++) {
+ 		var addSugar=0;
+		var addSalt=0;
+ 		for (var j = 0; j < filtered.length; j++) {
+ 			if (myArray[i].counteries_en == filtered[j].countries_en)
+			 {
+ 			 addSugar+= +filtered[j].sugars_100g;
+ 			 addSalt+= +filtered[j].salt_100g;
+ 			 }
+ 		}
+		myArray[i]["sugars_100g"]=addSugar;
+		myArray[i]["salt_100g"]=addSalt;
+ 	}
+	console.log(myArray);
 
-function addData(filtered){
-	var arrAdd=[];
-
-	for (var i = 1; i < filtered.length; i++) {
-	if (filtered.countries_en=="Netherlands") {
-		arrAdd[countryIndex]=filtered.countries_en;
-	arrAdd[sugars_100g]+=filtered.sugars_100g;
-		arrAdd[salt_100g]+=filtered.salt_100g;
-	}
-	 else if (filtered.countries_en=="Canada") {
-		 	arrAdd[countryIndex]=filtered.countries_en;
-		 arrAdd_sugar[sugars_100g]+=filtered.sugars_100g;
- 		arrAdd_salt[salt_100g]+=filtered.salt_100g;
-	}
-	else if (filtered.countries_en=="UK/USA") {
-			arrAdd[countryIndex]=filtered.countries_en;
-	arrAdd_sugar[sugars_100g]+=filtered.sugars_100g;
-	arrAdd_salt[salt_100g]+=filtered.salt_100g;
  }
- else if (filtered.countries_en=="Australia") {
-	 	arrAdd[countryIndex]=filtered.countries_en;
-	arrAdd_sugar[sugars_100g]+=filtered.sugars_100g;
-arrAdd_salt[salt_100g]+=filtered.salt_100g;
- }
- else if (filtered.countries_en=="France") {
-	 	arrAdd[countryIndex]=filtered.countries_en;
-	 arrAdd_sugar[sugars_100g]+=filtered.sugars_100g;
-	arrAdd_salt[salt_100g]+=filtered.salt_100g;
- }
- else if (filtered.countries_en=="Germany") {
-	 	arrAdd[countryIndex]=filtered.countries_en;
-	 arrAdd_sugar[sugars_100g]+=filtered.sugars_100g;
-	arrAdd_salt[salt_100g]+=filtered.salt_100g;
- }
- else if (filtered.countries_en=="Spain") {
-	 	arrAdd[countryIndex]=filtered.countries_en;
-	  arrAdd[sugars_100g]+=filtered.sugars_100g;
-    arrAdd[salt_100g]+=filtered.salt_100g;
- }
- else  (filtered.countries_en=="South Africa") {
-	 	arrAdd[countryIndex]=filtered.countries_en;
-    arrAdd[sugars_100g]+=filtered.sugars_100g;
-    arrAdd[salt_100g]+=filtered.salt_100g;
- }
-
-	}
-}
